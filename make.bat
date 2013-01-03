@@ -1,1 +1,0 @@
-gcc -fpic funcmodule.c -DHAVE_CONFIG_H -lpython2.7 -IC:\Python27\include -LC:\Python27\libs -Wl,-E -o funcmodule.o

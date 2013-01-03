@@ -1,8 +1,10 @@
-from setuptools import setup, Extension
+from distutils.core import setup
+from distutils.extension import Extension
+from Pyrex.Distutils import build_ext
 setup(
-    name='func',
-    version='1.0.1',
-    description='util functions',
-    ext_modules=[Extension('_func', ['funcmodule.c'])],
-    py_modules=['func']
+    name = "GaussFunction",
+    ext_modules=[
+        Extension("gauss", ["gauss.pyx"])
+    ],
+    cmdclass = {'build_ext': build_ext}
 )
