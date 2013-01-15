@@ -28,7 +28,7 @@ def plot3D(x, y, f):
     zgrid = map(iterator, xgrid, ygrid)
     fig = plot.figure()
     axes = Axes3D(fig)
-    axes.plot_surface(xgrid, ygrid, zgrid)
+    axes.plot_surface(xgrid, ygrid, zgrid, rstride=1, cstride=1)
 
 def intersect(a, b):
     cylinder = Gauss(4.5, 4.5, a, b)
