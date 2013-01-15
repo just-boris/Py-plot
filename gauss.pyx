@@ -4,7 +4,7 @@ cdef extern from "math.h":
 cdef class Gauss:
     cdef double A, X, Y, a, b
     def __init__(self, s1, s2, a, b):
-        self.A = 1/(2*M_PI)*s1*s2
+        self.A = 1/(2*M_PI*s1*s2)
         self.X = 2*s1**2
         self.Y = 2*s2**2
         self.a = a

@@ -31,9 +31,9 @@ def plot3D(x, y, f):
     axes.plot_surface(xgrid, ygrid, zgrid)
 
 def intersect(a, b):
-    cylinder = Gauss(2.5, 3.5, a, b)
+    cylinder = Gauss(4.5, 4.5, a, b)
     def expr(x,y):
-        return planar.gauss(x,y)*cylinder.gauss(x,y)
+        return min(planar.gauss(x,y), cylinder.gauss(x,y))
     return integrate.dblquad(expr, -20, 20, lambda x: -20, lambda y: 20)[0]
 
 x = np.arange(xmin, xmax, 1)
