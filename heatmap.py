@@ -12,16 +12,14 @@ xmax = 20
 ymin = -20
 ymax = 20
 
-planarG1 = 4.5
-planarG2 = 4.5
-cylinderG1 = 4.5
-cylinderG2 = 4.5
-planar = Gauss(planarG1, planarG1, 0, 0)
+planarG = (7,4.5)
+cylinderG = (3.5,3.5)
+planar = Gauss(planarG[0], planarG[1], 0, 0)
 vmax = planar.gauss(0,0)
 
 pylab.subplot2grid (gridShape, (0, 0), colspan = 2, rowspan = 2)
 def intersect(a, b):
-    cylinder = Gauss(cylinderG1, cylinderG2, a, b)
+    cylinder = Gauss(cylinderG[0], cylinderG[1], a, b)
     def expr(x,y):
         return min(planar.gauss(x,y), cylinder.gauss(x,y))
     return integrate.dblquad(expr, xmin, xmax, lambda x: ymin, lambda x: ymax)[0]
@@ -32,34 +30,45 @@ def drawMap(a, b):
     return [[ratio/vmax*planar.gauss(x, y) for x in range(xmin, xmax+1)] for y in range(ymin, ymax+1)]
 def getCellData(x,y):
     return [
-        ["%s/%s"%(planarG1, planarG2)],
-        ["%s/%s"%(cylinderG1, cylinderG2)],
+        ["%s/%s"%planarG],
+        ["%s/%s"%cylinderG],
         ["(%.4s, %.4s)"%(x, y)]
     ]
 def buildTable(cells):
-    ax.table(
+    return ax.table(
         rowLabels=[u'Планарный', u'Цилиндрический', u'Точка пересечения'],
         cellText=cells,
         loc='center'
     )
-p = pylab.imshow(drawMap(0,0), extent=[xmin, xmax, ymin, ymax])
+def buildShape(G, a, b):
+    t = np.arange(0, 2*np.pi, 0.1)
+    return (G[0]*np.cos(t)+a, G[1]*np.sin(t)+b)
+p = pylab.imshow(drawMap(0,0), extent=[xmin, xmax, ymin, ymax], vmax=1)
 point = pylab.plot(0,0, 'b+')
 def OnClick(event):
     x = event.xdata
     y = event.ydata
     p.set_data(drawMap(x, y))
     point[0].set_data(x, y)
-    buildTable(getCellData(x,y))
+    table[0].remove()
+    table[0] = buildTable(getCellData(x,y))
+    X,Y=buildShape(cylinderG,x,y)
+    line[0].set_data(X,Y)
     pylab.show()
 fig = pylab.gcf()
 
 cid_up = fig.canvas.mpl_connect('button_press_event', OnClick)
 pylab.colorbar()
+ax = pylab.subplot2grid (gridShape, (2, 0))
+x,y = buildShape(planarG,0,0)
+pylab.plot(x,y, 'k')
+x,y = buildShape(cylinderG,0,0)
+line = pylab.plot(x,y, 'b')
 
 ax = pylab.subplot2grid (gridShape, (2, 1), frame_on=False)
 ax.xaxis.set_visible(False)
 ax.yaxis.set_visible(False)
-buildTable(getCellData(0,0))
+table = [buildTable(getCellData(0,0))]
 pylab.show()
 
 
