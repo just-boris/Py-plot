@@ -30,18 +30,17 @@ def drawMap(a, b):
     return [[ratio/vmax*planar.gauss(x, y) for x in range(xmin, xmax+1)] for y in range(ymin, ymax+1)]
 def getCellData(x,y):
     return [
-        ["%s/%s"%planarG],
-        ["%s/%s"%cylinderG],
-        ["(%.4s, %.4s)"%(x, y)]
+        [u'Планарный', "%s/%s"%planarG],
+        [u'Цилиндрический', "%s/%s"%cylinderG],
+        [u'Точка пересечения', "(%.4s, %.4s)"%(x, y)]
     ]
 def buildTable(cells):
     return ax.table(
-        rowLabels=[u'Планарный', u'Цилиндрический', u'Точка пересечения'],
         cellText=cells,
-        loc='center'
+        loc='upper center'
     )
 def buildShape(G, a, b):
-    t = np.arange(0, 2*np.pi, 0.1)
+    t = np.arange(0, 2*np.pi+0.1, 0.1)
     return (G[0]*np.cos(t)+a, G[1]*np.sin(t)+b)
 p = pylab.imshow(drawMap(0,0), extent=[xmin, xmax, ymin, ymax], vmax=1)
 point = pylab.plot(0,0, 'b+')
