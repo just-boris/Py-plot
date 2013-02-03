@@ -33,7 +33,7 @@ def buildShape(G, a, b):
 
 #настройки matplotlib
 gridShape = (3,2)
-pylab.rc('font',**{'family':'verdana'})
+pylab.rc('font',**{'family':'serif'})
 
 #объявление наших условий
 #TODO перенести в конфигурационный файл
