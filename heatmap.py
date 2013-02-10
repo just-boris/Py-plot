@@ -2,28 +2,25 @@
 import scipy.integrate as integrate
 import numpy as np
 from gauss import Gauss
+from include import coupling
 import pylab
 
 #function definitions
-#TODO вынести в общий модуль, повторяющаяся функция
 def intersect(a, b):
     cylinder = Gauss(cylinderG[0], cylinderG[1], a, b)
-    def expr(x,y):
-        return min(planar.gauss(x,y), cylinder.gauss(x,y))
-    return integrate.dblquad(expr, xmin, xmax, lambda x: ymin, lambda x: ymax)[0]
+    return coupling.coupling(planar.gauss, cylinder.gauss)
 
 #три функции отрисовки диаграмм
-def drawMap(a, b):
-    ratio = intersect(a,b)
-    print ratio
+def drawMap(ratio):
     return [[ratio/vmax*planar.gauss(x, y) for x in range(xmin, xmax+1)] for y in range(ymin, ymax+1)]
 
-def buildTable(x, y):
+def buildTable(x, y, ratio):
     return ax.table(
         cellText=[
-            [u'Планарный', "%s/%s"%planarG],
-            [u'Цилиндрический', "%s/%s"%cylinderG],
-            [u'Точка пересечения', "(%.4s, %.4s)"%(x, y)]
+            [u'Вх. распределение', "%s/%s"%cylinderG],
+            [u'Вых. распределение', "%s/%s"%planarG],
+            [u'Точка пересечения', "(%.4s, %.4s)"%(x, y)],
+            [u'К-т передачи', "%.4s"%(ratio)]
         ],
         loc='upper center'
     )
@@ -45,10 +42,10 @@ planarG = (7,4.5)
 cylinderG = (3.5,3.5)
 planar = Gauss(planarG[0], planarG[1], 0, 0)
 vmax = planar.gauss(0,0)
-
+ratio = intersect(0,0)
 #верхняя половина
 pylab.subplot2grid (gridShape, (0, 0), colspan = 2, rowspan = 2)
-p = pylab.imshow(drawMap(0,0), extent=[xmin, xmax, ymin, ymax], vmax=1)
+p = pylab.imshow(drawMap(ratio), extent=[xmin, xmax, ymin, ymax], vmax=1)
 point = pylab.plot(0,0, 'b+')
 pylab.colorbar()
 #обработка клика
@@ -56,10 +53,11 @@ def OnClick(event):
     x = event.xdata
     y = event.ydata
     if x is None or y is None: return
-    p.set_data(drawMap(x, y))
+    ratio = intersect(x,y)
+    p.set_data(drawMap(ratio))
     point[0].set_data(x, y)
     table[0].remove()
-    table[0] = buildTable(x,y)
+    table[0] = buildTable(x,y, ratio)
     X,Y=buildShape(cylinderG,x,y)
     line[0].set_data(X,Y)
     pylab.show()
@@ -77,7 +75,7 @@ line = pylab.plot(x,y, 'b')
 ax = pylab.subplot2grid (gridShape, (2, 1), frame_on=False)
 ax.xaxis.set_visible(False)
 ax.yaxis.set_visible(False)
-table = [buildTable(0,0)]
+table = [buildTable(0,0, ratio)]
 
 #собираем все вместе
 pylab.show()
