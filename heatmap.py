@@ -1,9 +1,9 @@
 # coding=utf-8
-import scipy.integrate as integrate
 import numpy as np
 from gauss import Gauss
 from include import coupling
 import pylab
+from scipy.optimize import fmin_powell
 
 #function definitions
 def intersect(a, b):
@@ -17,10 +17,11 @@ def drawMap(ratio):
 def buildTable(x, y, ratio):
     return ax.table(
         cellText=[
-            [u'Вх. распределение', "%s/%s" % cylinderG],
-            [u'Вых. распределение', "%s/%s" % planarG],
-            [u'Точка пересечения', "(%.4s, %.4s)" % (x, y)],
-            [u'К-т передачи', "%.4s" % (ratio)]
+            [u'Вх. распределение', "%d/%d" % cylinderG],
+            [u'Вых. распределение', "%d/%d" % planarG],
+            [u'Точка пересечения', "(%.2f, %.2f)" % (x, y)],
+            [u'К-т передачи', "%.4f" % ratio],
+            [u'Макс. к-т передачи', "%.4f" % maxRatio]
         ],
         loc='upper center'
     )
@@ -43,7 +44,9 @@ planarG = (7, 4.5)
 cylinderG = (3.5, 3.5)
 planar = Gauss(planarG[0], planarG[1], 0, 0)
 vmax = planar.gauss(0, 0)
-ratio = intersect(0, 0)
+initPoint = fmin_powell(lambda x: -intersect(x[0], x[1]), [1, 2])
+ratio = maxRatio = intersect(initPoint[0], initPoint[1])
+
 #верхняя половина
 pylab.subplot2grid(gridShape, (0, 0))
 p = pylab.imshow(drawMap(ratio), extent=[xmin, xmax, ymin, ymax], vmax=1)
