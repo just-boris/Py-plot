@@ -2,6 +2,6 @@ language: python
 python:
   - "2.7"
 install:
-  - "sudo apt-get install build-dep python-scipy"
-  - "sudo apt-get install build-dep python-matplotlib"
+  - "sudo apt-get install python-scipy"
+  - "sudo apt-get install python-matplotlib"
 script: "python app.py test"
