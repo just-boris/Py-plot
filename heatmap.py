@@ -84,7 +84,8 @@ ax.xaxis.set_visible(False)
 ax.yaxis.set_visible(False)
 table = [buildTable(0, 0, ratio)]
 
-#собираем все вместе
-pylab.show()
+if __name__ == "__main__":
+    #собираем все вместе
+    pylab.show()
 
 
