@@ -4,4 +4,4 @@ python:
 install:
   - "pip install matplotlib"
   - "pip install scipy"
-script: python app.py test
+script: "python app.py test"
