@@ -4,5 +4,6 @@ python:
 install:
   - "sudo apt-get install python-scipy"
   - "sudo apt-get install python-matplotlib"
+  - "pip install pyrex"
   - "python include/gauss_setup.py build_ext"
 script: "python app.py test"
