@@ -47,8 +47,8 @@ vmax = planar.gauss(0, 0)
 initPoint = fmin_powell(lambda x: -intersect(x[0], x[1]), [1, 2])
 ratio = maxRatio = intersect(initPoint[0], initPoint[1])
 
-#верхняя половина
-pylab.subplot2grid(gridShape, (0, 0))
+#верхняя половина - слева
+pylab.subplot2grid(gridShape, (0, 0), adjustable='box', aspect=1)
 p = pylab.imshow(drawMap(ratio), extent=[xmin, xmax, ymin, ymax], vmax=1)
 point = pylab.plot(0, 0, 'b+')
 pylab.colorbar()
@@ -71,8 +71,8 @@ def OnClick(event):
 fig = pylab.gcf()
 cid_up = fig.canvas.mpl_connect('button_press_event', OnClick)
 
-#нижняя половина - слева
-ax = pylab.subplot2grid(gridShape, (0, 1))
+#верхняя половина - справа
+ax = pylab.subplot2grid(gridShape, (0, 1), adjustable='box', aspect=1)
 x, y = buildShape(planarG, 0, 0)
 pylab.plot(x, y, 'k')
 x, y = buildShape(cylinderG, 0, 0)
