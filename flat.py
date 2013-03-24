@@ -1,22 +1,20 @@
+# coding=utf-8
 import pylab
-import scipy.integrate as integrate
 import numpy as np
 from gauss import GaussX
+from planar import PlanarX
 from include import coupling
 
-planar = GaussX(7,0)
+planar = PlanarX(open('matrix/dump1d.csv', 'rb'))
 cylinder = GaussX(4.5,4)
-def intersect_old(x):
+
+def intersect(x):
     cylinder = GaussX(4.5,x)
-    def expr(x):
-        return min(planar.gauss(x), cylinder.gauss(x))
-    return integrate.quad(expr, -20, 20)[0]
-def intersect_new(x):
-    cylinder = GaussX(4.5,x)
-    return coupling.couplingX(cylinder.gauss, planar.gauss)
+    return coupling.couplingX(cylinder.gauss, planar.planar)
 
 x = np.arange(-20, 20, 0.1)
-pylab.plot(x, map(intersect_old, x), 'g')
-pylab.plot(x, map(intersect_new, x), 'r')
+pylab.plot(x, map(intersect, x), 'g')
 
-pylab.show()
+if __name__ == "__main__":
+    #только без тестов
+    pylab.show()

@@ -4,4 +4,5 @@ parser.add_argument("operation", help="echo the string you use here", nargs='?',
 args = parser.parse_args()
 if args.operation == "test":
     import heatmap
+    import flat
     print "test ok"
