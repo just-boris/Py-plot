@@ -12,7 +12,7 @@ planar = Gauss(4.5, 4.5, 0, 0)
 
 def intersect(a, b):
     cylinder = Gauss(4.5, 4.5, a, b)
-    return coupling.coupling(planar.gauss, cylinder.gauss)
+    return coupling.coupling(planar.func, cylinder.func)
 
 x = np.arange(xmin, xmax, 1)
 y = np.arange(ymin, ymax, 1)

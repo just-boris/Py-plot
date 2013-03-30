@@ -8,7 +8,7 @@ planar = Gauss(planarG[0], planarG[1], 0, 0)
 #function definitions
 def intersect(a, b):
     cylinder = Gauss(cylinderG[0], cylinderG[1], a, b)
-    return coupling.coupling(planar.gauss, cylinder.gauss)
+    return coupling.coupling(planar.func, cylinder.func)
 
 x, y = opt.fmin_powell(lambda x: -intersect(x[0], x[1]), [1, 2])
 print "({0:.3f}, {1:.3f})".format(x, y)

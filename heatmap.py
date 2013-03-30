@@ -9,11 +9,11 @@ from scipy.optimize import fmin_powell
 #function definitions
 def intersect(a, b):
     cylinder = Gauss(cylinderG[0], cylinderG[1], a, b)
-    return coupling.coupling(planar.planar, cylinder.gauss)
+    return coupling.coupling(planar.func, cylinder.func)
 
 #три функции отрисовки диаграмм
 def drawMap(ratio):
-    return [[ratio / vmax * planar.planar(x, y) for x in range(xmin, xmax + 1)] for y in range(ymin, ymax + 1)]
+    return [[ratio / vmax * planar.func(x, y) for x in range(xmin, xmax + 1)] for y in range(ymin, ymax + 1)]
 
 def buildTable(x, y, ratio):
     return ax.table(
@@ -44,7 +44,7 @@ ymax = 20
 planarG = (7, 7)
 cylinderG = (3.5, 3.5)
 planar = Planar(open('matrix/dump2d.csv', 'rb'))
-vmax = planar.planar(0, 0)
+vmax = planar.func(0, 0)
 initPoint = fmin_powell(lambda x: -intersect(x[0], x[1]), [1, 2])
 ratio = maxRatio = intersect(initPoint[0], initPoint[1])
 

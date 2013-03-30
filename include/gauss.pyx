@@ -10,7 +10,7 @@ cdef class Gauss:
         self.Y = 2*s2**2
         self.a = a
         self.b = b
-    def gauss(self, float x, float y):
+    def func(self, float x, float y):
         return self.A*exp(-(x-self.a)**2/self.X-(y-self.b)**2/self.Y)
 
 cdef class GaussX:
@@ -19,5 +19,5 @@ cdef class GaussX:
         self.A = 1/(sqrt(2*M_PI)*s1)
         self.X = 2*s1**2
         self.a = a
-    def gauss(self, float x):
+    def func(self, float x):
         return self.A*exp(-(x-self.a)**2/self.X)

@@ -10,7 +10,7 @@ cylinder = GaussX(4.5,4)
 
 def intersect(x):
     cylinder = GaussX(4.5,x)
-    return coupling.couplingX(cylinder.gauss, planar.planar)
+    return coupling.couplingX(cylinder.func, planar.func)
 
 x = np.arange(-20, 20, 0.1)
 pylab.plot(x, map(intersect, x), 'g')

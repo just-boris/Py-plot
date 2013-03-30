@@ -57,7 +57,7 @@ class Planar:
                                       * row[l] * self.zcN[zh][ch]
         return result
 
-    def planar(self, float x, float y):
+    def func(self, float x, float y):
         return self.mode_func(0, x, y)
 
 class PlanarX:
@@ -75,5 +75,5 @@ class PlanarX:
             return a+item[1]*self.fi_p(item[0], x)
         row = enumerate(self.HE[(-1-m)], 0)
         return reduce(iterator, row, 0)
-    def planar(self, double x):
+    def func(self, double x):
         return self.mode_func(0, x)
