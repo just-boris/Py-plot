@@ -1,6 +1,7 @@
 # coding=utf-8
 import numpy as np
 from gauss import Gauss
+from planar import Planar
 from include import coupling
 import pylab
 from scipy.optimize import fmin_powell
@@ -8,17 +9,17 @@ from scipy.optimize import fmin_powell
 #function definitions
 def intersect(a, b):
     cylinder = Gauss(cylinderG[0], cylinderG[1], a, b)
-    return coupling.coupling(planar.gauss, cylinder.gauss)
+    return coupling.coupling(planar.planar, cylinder.gauss)
 
 #три функции отрисовки диаграмм
 def drawMap(ratio):
-    return [[ratio / vmax * planar.gauss(x, y) for x in range(xmin, xmax + 1)] for y in range(ymin, ymax + 1)]
+    return [[ratio / vmax * planar.planar(x, y) for x in range(xmin, xmax + 1)] for y in range(ymin, ymax + 1)]
 
 def buildTable(x, y, ratio):
     return ax.table(
         cellText=[
             [u'Вх. распределение', "%d/%d" % cylinderG],
-            [u'Вых. распределение', "%d/%d" % planarG],
+            [u'Вых. распределение', "%d/%d" % (7,7)],
             [u'Точка пересечения', "(%.2f, %.2f)" % (x, y)],
             [u'К-т передачи', "%.4f" % ratio],
             [u'Макс. к-т передачи', "%.4f" % maxRatio]
@@ -40,10 +41,10 @@ xmin = -20
 xmax = 20
 ymin = -20
 ymax = 20
-planarG = (7, 4.5)
+planarG = (7, 7)
 cylinderG = (3.5, 3.5)
-planar = Gauss(planarG[0], planarG[1], 0, 0)
-vmax = planar.gauss(0, 0)
+planar = Planar(open('matrix/dump2d.csv', 'rb'))
+vmax = planar.planar(0, 0)
 initPoint = fmin_powell(lambda x: -intersect(x[0], x[1]), [1, 2])
 ratio = maxRatio = intersect(initPoint[0], initPoint[1])
 

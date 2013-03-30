@@ -1,6 +1,5 @@
 # coding=utf-8
 import numpy as np
-import scipy.integrate as integrate
 from gauss import Gauss
 from include import plot3D, coupling
 
