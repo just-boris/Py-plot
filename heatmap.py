@@ -51,7 +51,7 @@ ratio = maxRatio = intersect(initPoint[0], initPoint[1])
 
 #верхняя половина - слева
 pylab.subplot2grid(gridShape, (0, 0), adjustable='box', aspect=1)
-p = pylab.imshow(drawMap(ratio), extent=[xmin, xmax, ymin, ymax], vmax=0.2, origin="lower")
+p = pylab.imshow(drawMap(ratio), extent=[xmin, xmax, ymin, ymax], vmax=1, origin="lower")
 point = pylab.plot(initPoint[0], initPoint[1], 'b+')
 pylab.colorbar()
 
