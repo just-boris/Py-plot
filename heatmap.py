@@ -44,14 +44,15 @@ ymax = 20
 planarG = (7, 7)
 cylinderG = (3.5, 3.5)
 planar = Planar(open('matrix/dump2d.csv', 'rb'))
-vmax = planar.func(0, 0)
+planarMax = fmin_powell(lambda x: -planar.func(x[0], x[1]), [1, 2])
+vmax = planar.func(planarMax[0], planarMax[1])
 initPoint = fmin_powell(lambda x: -intersect(x[0], x[1]), [1, 2])
 ratio = maxRatio = intersect(initPoint[0], initPoint[1])
 
 #верхняя половина - слева
 pylab.subplot2grid(gridShape, (0, 0), adjustable='box', aspect=1)
-p = pylab.imshow(drawMap(ratio), extent=[xmin, xmax, ymin, ymax], vmax=1)
-point = pylab.plot(0, 0, 'b+')
+p = pylab.imshow(drawMap(ratio), extent=[xmin, xmax, ymin, ymax], vmax=0.2, origin="lower")
+point = pylab.plot(initPoint[0], initPoint[1], 'b+')
 pylab.colorbar()
 
 #обработка клика
@@ -74,8 +75,8 @@ cid_up = fig.canvas.mpl_connect('button_press_event', OnClick)
 
 #верхняя половина - справа
 ax = pylab.subplot2grid(gridShape, (0, 1), adjustable='box', aspect=1)
-x, y = buildShape(planarG, 0, 0)
-pylab.plot(x, y, 'k')
+# x, y = buildShape(planarG, 0, 0)
+# pylab.plot(x, y, 'k')
 x, y = buildShape(cylinderG, 0, 0)
 line = pylab.plot(x, y, 'b')
 pylab.axis([-20, 20, -20, 20])
@@ -83,10 +84,14 @@ pylab.axis([-20, 20, -20, 20])
 ax = pylab.subplot2grid(gridShape, (1, 0), colspan=2, frame_on=False)
 ax.xaxis.set_visible(False)
 ax.yaxis.set_visible(False)
-table = [buildTable(0, 0, ratio)]
+table = [buildTable(initPoint[0], initPoint[1], ratio)]
 
 if __name__ == "__main__":
     #собираем все вместе
     pylab.show()
+else:
+    #результаты теста
+    print "planarMax: ({0:.3f}, {1:.3f})".format(planarMax[0], planarMax[1])
+    print "couplingMax: ({0:.3f}, {1:.3f})".format(initPoint[0], initPoint[1])
 
 
