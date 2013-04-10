@@ -41,10 +41,10 @@ xmin = -20
 xmax = 20
 ymin = -20
 ymax = 20
-planarG = (7, 7)
-cylinderG = (3.5, 3.5)
+planarG = (4.6, 4)
+cylinderG = (3, 3)
 planar = Planar(open('matrix/dump2d.csv', 'rb'))
-planarMax = fmin_powell(lambda x: -planar.func(x[0], x[1]), [1, 2])
+planarMax = fmin_powell(lambda x: -planar.func(x[0], x[1]), [0, -1])
 vmax = planar.func(planarMax[0], planarMax[1])
 initPoint = fmin_powell(lambda x: -intersect(x[0], x[1]), [1, 2])
 ratio = maxRatio = intersect(initPoint[0], initPoint[1])
