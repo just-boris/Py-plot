@@ -44,10 +44,10 @@ ymax = 20
 planarG = (4.6, 4)
 cylinderG = (3, 3)
 planar = Planar(open('matrix/dump2d.csv', 'rb'))
-planarMax = fmin_powell(lambda x: -planar.func(x[0], x[1]), [0, -1])
-vmax = planar.func(planarMax[0], planarMax[1])
-initPoint = fmin_powell(lambda x: -intersect(x[0], x[1]), [1, 2])
-ratio = maxRatio = intersect(initPoint[0], initPoint[1])
+planarMax = fmin_powell(lambda x: -planar.func(*x), [0, -1])
+vmax = planar.func(*planarMax)
+initPoint = fmin_powell(lambda x: -intersect(*x), [1, 2])
+ratio = maxRatio = intersect(*initPoint)
 
 #верхняя половина - слева
 pylab.subplot2grid(gridShape, (0, 0), adjustable='box', aspect=1)
@@ -84,14 +84,14 @@ pylab.axis([-20, 20, -20, 20])
 ax = pylab.subplot2grid(gridShape, (1, 0), colspan=2, frame_on=False)
 ax.xaxis.set_visible(False)
 ax.yaxis.set_visible(False)
-table = [buildTable(initPoint[0], initPoint[1], ratio)]
+table = [buildTable(*initPoint, ratio=ratio)]
 
 if __name__ == "__main__":
     #собираем все вместе
     pylab.show()
 else:
     #результаты теста
-    print "planarMax: ({0:.3f}, {1:.3f})".format(planarMax[0], planarMax[1])
-    print "couplingMax: ({0:.3f}, {1:.3f})".format(initPoint[0], initPoint[1])
+    print "planarMax: ({0:.3f}, {1:.3f})".format(*planarMax)
+    print "couplingMax: ({0:.3f}, {1:.3f})".format(*initPoint)
 
 
