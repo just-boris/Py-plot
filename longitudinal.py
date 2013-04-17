@@ -19,7 +19,7 @@ def divergence(w, d):
 
 def traversal(d):
     w1 = divergence(w, d)
-    cylinder = Gauss(*w1, a=0, b=0)
+    cylinder = Gauss(*w1, a=0, b=-2.98)
     return coupling(planar.func, cylinder.func)
 
 
