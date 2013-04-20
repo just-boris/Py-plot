@@ -8,15 +8,15 @@ xmax = 7
 ymin = -7
 ymax = 7
 
-use3d = False
+use3d = True
 
 planar = Planar(open('matrix/dump2d.csv', 'rb'))
 
 def drawMap():
     return [[planar.func(x, y) for x in range(xmin, xmax+1)] for y in range(ymin, ymax+1)]
 
-x = np.arange(xmin, xmax+1, 1)
-y = np.arange(ymin, ymax+1, 1)
+x = np.arange(xmin, xmax+1, 0.3)
+y = np.arange(ymin, ymax+1, 0.3)
 
 if use3d:
     doPlot(x, y, lambda x,y: planar.func(x,y))
