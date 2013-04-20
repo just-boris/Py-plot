@@ -27,9 +27,17 @@ def buildTable(x, y, ratio):
         loc='upper center'
     )
 
-def buildShape(G, a, b):
-    t = np.arange(0, 2 * np.pi + 0.1, 0.1)
-    return G[0] * np.cos(t) + a, G[1] * np.sin(t) + b
+def buildCylinder(a, b):
+    cylinder = Gauss(cylinderG[0], cylinderG[1], a, b)
+    return [[cylinder.func(x, y) for x in range(xmin, xmax + 1)] for y in range(ymin, ymax + 1)]
+
+def buildContours(x, y):
+    contours.cla()
+    xmap = range(xmin, xmax + 1)
+    ymap = range(ymin, ymax + 1)
+    contours.contour(xmap, ymap, drawMap(vmax), (0.1, ), colors='k')
+    contours.contour(xmap, ymap, buildCylinder(x,y), (0.01, ), colors='b')
+
 
 #настройки matplotlib
 gridShape = (2, 2)
@@ -37,10 +45,10 @@ pylab.rc('font', **{'family': 'serif'})
 
 #объявление наших условий
 #TODO перенести в конфигурационный файл
-xmin = -20
-xmax = 20
-ymin = -20
-ymax = 20
+xmin = -10
+xmax = 10
+ymin = -10
+ymax = 10
 planarG = (4.6, 4)
 cylinderG = (3, 3)
 planar = Planar(open('matrix/dump2d.csv', 'rb'))
@@ -66,20 +74,15 @@ def OnClick(event):
     point[0].set_data(x, y)
     table[0].remove()
     table[0] = buildTable(x, y, ratio)
-    X, Y = buildShape(cylinderG, x, y)
-    line[0].set_data(X, Y)
+    buildContours(x, y)
     pylab.show()
 
 fig = pylab.gcf()
 cid_up = fig.canvas.mpl_connect('button_press_event', OnClick)
 
 #верхняя половина - справа
-ax = pylab.subplot2grid(gridShape, (0, 1), adjustable='box', aspect=1)
-# x, y = buildShape(planarG, 0, 0)
-# pylab.plot(x, y, 'k')
-x, y = buildShape(cylinderG, 0, 0)
-line = pylab.plot(x, y, 'b')
-pylab.axis([-20, 20, -20, 20])
+contours = pylab.subplot2grid(gridShape, (0, 1), adjustable='box', aspect=1)
+buildContours(*initPoint)
 #нижняя половина - справа
 ax = pylab.subplot2grid(gridShape, (1, 0), colspan=2, frame_on=False)
 ax.xaxis.set_visible(False)
