@@ -9,10 +9,10 @@ planar = Planar(open('matrix/dump2d.csv'))
 w = (3, 3)
 lam = 1.55
 n = 1.47
-divergence_angle = [math.atan(lam/(math.pi*n*width)) for width in w]
+divergence_angle = [lam/(math.pi*n*width) for width in w]
 
 def get_angle(d, w, theta):
-    return w + 2*d*math.tan(math.atan(theta))
+    return w + d*theta
 
 def divergence(w, d):
     return (get_angle(d, w, theta) for w, theta in zip(w, divergence_angle))
@@ -23,6 +23,6 @@ def traversal(d):
     return coupling(planar.func, cylinder.func)
 
 
-x = np.arange(0, 20, 0.1)
+x = np.arange(0, 51, 1)
 pylab.plot(x, map(traversal, x), 'g')
 pylab.show()
