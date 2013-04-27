@@ -6,6 +6,7 @@ cdef extern from "math.h":
 
 class Planar:
     def __init__(self, csv_file):
+        self.maxVal = 0.22372
         self.MIN_C = -7; self.MIN_Z = -7
         self.MAX_C = 7;  self.MAX_Z = 7
         self.Nf = 36
@@ -59,12 +60,13 @@ class Planar:
 
     def func(self, float x, float y):
         if self.MIN_C < x < self.MAX_C and self.MIN_Z < y < self.MAX_Z:
-            return -self.mode_func(0, x, y)
+            return -self.mode_func(0, x, y)/self.maxVal
         else:
             return 0
 
 class PlanarX:
     def __init__(self, csv_file):
+        self.maxVal = 0.582845
         self.MIN_X = self.MIN_Y = -20
         self.MAX_X = self.MAX_Y = 20
         self.HE = [[float(item) for item in row] for row in csv.reader(csv_file)]
@@ -79,4 +81,4 @@ class PlanarX:
         row = enumerate(self.HE[(-1-m)], 0)
         return reduce(iterator, row, 0)
     def func(self, double x):
-        return self.mode_func(0, x)
+        return self.mode_func(0, x)/self.maxVal
