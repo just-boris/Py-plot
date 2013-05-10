@@ -1,5 +1,4 @@
 # coding=utf-8
-import numpy as np
 from gauss import Gauss
 from planar import Planar
 from include import coupling
@@ -19,7 +18,7 @@ def buildTable(x, y, ratio):
     return ax.table(
         cellText=[
             [u'Вх. распределение', "%d/%d" % cylinderG],
-            [u'Вых. распределение', "%d/%d" % (7,7)],
+            [u'Вых. распределение', "%d/%d" % planarG],
             [u'Точка пересечения', "(%.2f, %.2f)" % (x, y)],
             [u'К-т передачи', "%.4f" % ratio],
             [u'Макс. к-т передачи', "%.4f" % maxRatio]
