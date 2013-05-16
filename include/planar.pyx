@@ -6,12 +6,12 @@ cdef extern from "math.h":
 
 class Planar:
     def __init__(self, csv_file):
-        self.maxVal = 0.22372
-        self.MIN_C = -7; self.MIN_Z = -7
-        self.MAX_C = 7;  self.MAX_Z = 7
+        self.maxVal = 0.141867
+        self.MIN_C = -10; self.MIN_Z = -10
+        self.MAX_C = 10; self.MAX_Z = 10
         self.Nf = 36
-        self.NNz = 15
-        self.NNc = 15
+        self.NNz = 16
+        self.NNc = 16
         self.Nh = 2
 
         self.HE = [[float(item) for item in row] for row in csv.reader(csv_file)]

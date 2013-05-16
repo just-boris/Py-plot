@@ -35,7 +35,7 @@ def buildContours(x, y):
     xmap = range(xmin, xmax + 1)
     ymap = range(ymin, ymax + 1)
     contours.contour(xmap, ymap, drawMap(vmax), (0.1, ), colors='k')
-    contours.contour(xmap, ymap, buildCylinder(x,y), (0.01, ), colors='b')
+    contours.contour(xmap, ymap, buildCylinder(x,y), (0.05, ), colors='b')
 
 
 #настройки matplotlib
