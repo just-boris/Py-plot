@@ -16,9 +16,8 @@
 * Установить [Scipy](http://www.scipy.org/): `pip install scipy`
 *   Установить встроенные библиотеки, запустив команды из папки `include`:
 
-    `python gauss_setup.py build_ext install`
-
-    `python planar_setup.py build_ext install`
+    `python gauss_setup.py build_ext install
+    python planar_setup.py build_ext install`
 
 ## Работа с программой
 
