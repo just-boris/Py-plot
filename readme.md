@@ -14,7 +14,7 @@
 1. Установить [Matplotlib](http://matplotlib.org/): `pip install matplotlib`
 1. Установить [Numpy](http://www.numpy.org/): `pip install numpy`
 1. Установить [Scipy](http://www.scipy.org/): `pip install scipy`
-1.   Установить встроенные библиотеки, запустив команды из папки `include`:
+1. Установить встроенные библиотеки, запустив команды из папки `include`:
 
         python gauss_setup.py build_ext install
         python planar_setup.py build_ext install
