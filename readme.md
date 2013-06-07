@@ -7,17 +7,17 @@
 
 Установка проверялась на операционные системы windows и linux
 
-* Склонировать данный git-репозиторий или [скачать](https://github.com/just-boris/Py-plot/archive/master.zip)
-* Установить интерпретатор Python 2.7, если его еще нет в системе
-* Установить [PIP](http://www.pip-installer.org/ru/latest/installing.html) - менеджер пакетов
-* Установить [Cython](http://cython.org):  `"pip install cython"`
-* Установить [Matplotlib](http://matplotlib.org/): `pip install matplotlib`
-* Установить [Numpy](http://www.numpy.org/): `pip install numpy`
-* Установить [Scipy](http://www.scipy.org/): `pip install scipy`
-*   Установить встроенные библиотеки, запустив команды из папки `include`:
+1. Склонировать данный git-репозиторий или [скачать](https://github.com/just-boris/Py-plot/archive/master.zip)
+1. Установить интерпретатор Python 2.7, если его еще нет в системе
+1. Установить [PIP](http://www.pip-installer.org/ru/latest/installing.html) - менеджер пакетов
+1. Установить [Cython](http://cython.org):  `"pip install cython"`
+1. Установить [Matplotlib](http://matplotlib.org/): `pip install matplotlib`
+1. Установить [Numpy](http://www.numpy.org/): `pip install numpy`
+1. Установить [Scipy](http://www.scipy.org/): `pip install scipy`
+1.   Установить встроенные библиотеки, запустив команды из папки `include`:
 
         python gauss_setup.py build_ext install
-        python planar_setup.py build_ext install`
+        python planar_setup.py build_ext install
 
 ## Работа с программой
 
