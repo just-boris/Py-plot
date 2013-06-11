@@ -1,6 +1,7 @@
 # coding=utf-8
 from gauss import Gauss
 from planar import Planar
+import platform
 from include import coupling
 import pylab
 from scipy.optimize import fmin_powell
@@ -10,6 +11,12 @@ def intersect(a, b):
     cylinder = Gauss(cylinderG[0], cylinderG[1], a, b)
     return coupling.coupling(planar.func, cylinder.func)
 
+def getFontName():
+    if platform.system() == 'Windows':
+        return 'arial'
+    else:
+        return 'serif'
+
 #три функции отрисовки диаграмм
 def drawMap(ratio):
     return [[ratio / vmax * planar.func(x, y) for x in range(xmin, xmax + 1)] for y in range(ymin, ymax + 1)]
@@ -17,8 +24,7 @@ def drawMap(ratio):
 def buildTable(x, y, ratio):
     return ax.table(
         cellText=[
-            [u'Вх. распределение', "%d/%d" % cylinderG],
-            [u'Вых. распределение', "%d/%d" % planarG],
+            [u'Радиус моды волокна', "%.2f" % cylinderG[0]],
             [u'Точка пересечения', "(%.2f, %.2f)" % (x, y)],
             [u'К-т передачи', "%.4f" % ratio],
             [u'Макс. к-т передачи', "%.4f" % maxRatio]
@@ -35,21 +41,22 @@ def buildContours(x, y):
     xmap = range(xmin, xmax + 1)
     ymap = range(ymin, ymax + 1)
     contours.contour(xmap, ymap, drawMap(vmax), (0.1, ), colors='k')
-    contours.contour(xmap, ymap, buildCylinder(x,y), (0.05, ), colors='b')
+    contours.contour(xmap, ymap, buildCylinder(x,y), (0.55, ), colors='b')
 
 
 #настройки matplotlib
 gridShape = (2, 2)
-pylab.rc('font', **{'family': 'serif'})
-
+pylab.rc('font', **{'family': getFontName()})
+pylab.rcParams['toolbar'] = 'None'
+import matplotlib.table
+matplotlib.table.Table.FONTSIZE =15
 #объявление наших условий
 #TODO перенести в конфигурационный файл
 xmin = -10
 xmax = 10
 ymin = -10
 ymax = 10
-planarG = (4.6, 4)
-cylinderG = (3, 3)
+cylinderG = (4.65, 4.65)
 planar = Planar(open('matrix/dump2d.csv', 'rb'))
 planarMax = fmin_powell(lambda x: -planar.func(*x), [0, -1])
 vmax = planar.func(*planarMax)
@@ -90,6 +97,7 @@ table = [buildTable(*initPoint, ratio=ratio)]
 
 if __name__ == "__main__":
     #собираем все вместе
+    pylab.gcf().canvas.set_window_title('Coupling Plot')
     pylab.show()
 else:
     #результаты теста

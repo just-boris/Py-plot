@@ -1,4 +1,4 @@
-# Py-Plot
+# Coupling-plot
 Модель стыковки волокна с канальным воноводом
 
 [![Build Status](https://api.travis-ci.org/just-boris/Py-plot.png)](https://travis-ci.org/just-boris/Py-plot)
