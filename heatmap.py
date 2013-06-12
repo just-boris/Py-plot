@@ -24,8 +24,8 @@ def drawMap(ratio):
 def buildTable(x, y, ratio):
     return ax.table(
         cellText=[
-            [u'Радиус моды волокна', "%.2f" % cylinderG[0]],
-            [u'Точка пересечения', "(%.2f, %.2f)" % (x, y)],
+            [u'Радиус моды волокна, мкм', "%.2f" % cylinderG[0]],
+            [u'Координаты центра волокна, (мкм, мкм)', "(%.2f, %.2f)" % (x, y)],
             [u'К-т передачи', "%.4f" % ratio],
             [u'Макс. к-т передачи', "%.4f" % maxRatio]
         ],
@@ -42,14 +42,16 @@ def buildContours(x, y):
     ymap = range(ymin, ymax + 1)
     contours.contour(xmap, ymap, drawMap(vmax), (0.1, ), colors='k')
     contours.contour(xmap, ymap, buildCylinder(x,y), (0.55, ), colors='b')
-
+    contours.set_xlabel(u'x, мкм')
+    contours.set_ylabel(u'y, мкм')
 
 #настройки matplotlib
 gridShape = (2, 2)
-pylab.rc('font', **{'family': getFontName()})
+pylab.rc('font', **{'family': getFontName(), 'size'  : 14})
 pylab.rcParams['toolbar'] = 'None'
-import matplotlib.table
-matplotlib.table.Table.FONTSIZE =15
+pylab.rcParams['figure.figsize'] = 12, 8
+pylab.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.01)
+
 #объявление наших условий
 #TODO перенести в конфигурационный файл
 xmin = -10
@@ -64,8 +66,10 @@ initPoint = fmin_powell(lambda x: -intersect(*x), [1, 2])
 ratio = maxRatio = intersect(*initPoint)
 
 #верхняя половина - слева
-pylab.subplot2grid(gridShape, (0, 0), adjustable='box', aspect=1)
+ax = pylab.subplot2grid(gridShape, (0, 0), adjustable='box', aspect=1)
 p = pylab.imshow(drawMap(ratio), extent=[xmin, xmax, ymin, ymax], vmax=1, origin="lower")
+ax.set_xlabel(u'x, мкм')
+ax.set_ylabel(u'y, мкм')
 point = pylab.plot(initPoint[0], initPoint[1], 'b+')
 pylab.colorbar()
 
@@ -80,6 +84,9 @@ def OnClick(event):
     point[0].set_data(x, y)
     table[0].remove()
     table[0] = buildTable(x, y, ratio)
+    table[0].auto_set_font_size(False)
+    table[0].set_fontsize(14)
+    table[0].scale(1, 2)
     buildContours(x, y)
     pylab.show()
 
@@ -94,6 +101,9 @@ ax = pylab.subplot2grid(gridShape, (1, 0), colspan=2, frame_on=False)
 ax.xaxis.set_visible(False)
 ax.yaxis.set_visible(False)
 table = [buildTable(*initPoint, ratio=ratio)]
+table[0].auto_set_font_size(False)
+table[0].set_fontsize(14)
+table[0].scale(1, 2)
 
 if __name__ == "__main__":
     #собираем все вместе
